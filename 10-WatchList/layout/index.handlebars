@@ -28,8 +28,9 @@
 <script type="text/javascript">
   $(".delmovie").on("click", function(event) {
     var id = $(this).data("movieid");
-//Send the delete request
-    $.ajax("/movies/" + id, {
+
+    // Send the DELETE request.
+    $.ajax("/api/movies/" + id, {
       type: "DELETE"
     }).then(
       function() {
@@ -39,14 +40,17 @@
       }
     );
   });
+
   $("#addmovie").on("submit", function(event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
+
     var newMovie = {
       movie: $("#addmovie [name=movie]").val().trim()
     };
+
     // Send the POST request.
-    $.ajax("/movies", {
+    $.ajax("/api/movies", {
       type: "POST",
       data: newMovie
     }).then(
@@ -57,15 +61,19 @@
       }
     );
   });
+
   $("#updatemovie").on("submit", function(event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
+
     var id = $("[name=id]").val().trim();
+
     var updatedMovie = {
       movie: $("#updatemovie [name=movie]").val().trim()
     };
+
     // Send the PUT request.
-    $.ajax("/movies/" + id, {
+    $.ajax("/api/movies/" + id, {
       type: "PUT",
       data: updatedMovie
     }).then(
@@ -77,6 +85,3 @@
     );
   });
 </script>
-
-
-

@@ -38,21 +38,53 @@ app.get("/", function(req, res) {
 
 // Serve single-quote.handlebars, populated with data that corresponds to the ID in the route URL.
 app.get("/:id", function(req, res) {
+  var id = req.params.id;
+  connection.query(
+    'SELECT * FROM quotes WHERE id = ?',
+    [id],
+    function(err, data) {
+      if (err) {
+        return res.status(500).end();
+      }
+      res.render('single-quote', data[0]);
+    }
+  )
 
 });
 
 // Create a new quote using the data posted from the front-end.
-app.post("/api/quotes", function(req, res) {
+app.post("/:id", function(req, res) {
+  connection.query("SELECT * FROM quotes where id = ?", function(err, data) {
+    if (err) {
+      return res.status(500).end();
+    }
 
+    res.render("single-quote", { single-quote: data[0] });
+  });
 });
+
+
 
 // Delete a quote based off of the ID in the route URL.
 app.delete("/api/quotes/:id", function(req, res) {
+  connection.query(
+    'DELETE FROM quotes  WHERE id = ?',
+[req.params.id],
+function(err, results) {
+  if (err) {
+    return res.status(500).end();
+  }else if (results.affectedRows === o) {
+    return res.status(404).end();
+  }
+  res.status(200).end();
+}
+  )
 
 });
 
-// Update a quote.
+//Update a quote
 app.put("/api/quotes/:id", function(req, res) {
+
 
 });
 
